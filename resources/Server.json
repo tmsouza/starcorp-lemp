@@ -1,6 +1,6 @@
 {
-    "ip": "192.168.10.10",
-    "memory": 2048,
+    "ip": "192.168.10.20",
+    "memory": 1024,
     "cpus": 1,
     "authorize": "~/.ssh/id_rsa.pub",
     "keys": [
@@ -15,7 +15,13 @@
     "sites": [
         {
             "map": "starcorp.test",
-            "to": "/home/vagrant/code/public"
+            "to": "/home/vagrant/code/public",
+            "php": "7.1"
+        },
+        {
+            "map": "wallet.local",
+            "port": "4200",
+            "type": "angular"
         }
     ],
     "databases": [

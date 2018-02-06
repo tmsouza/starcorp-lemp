@@ -17,7 +17,7 @@ class Lemp
 
         # Configure A Private Network IP
         if settings["ip"] != "autonetwork"
-            config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+            config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.20"
         else
             config.vm.network :private_network, :ip => "0.0.0.0", :auto_network => true
         end
@@ -32,7 +32,7 @@ class Lemp
         # Configure A Few VirtualBox Settings
         config.vm.provider "virtualbox" do |vb|
             vb.name = settings["name"] ||= "starcorp-lemp"
-            vb.customize ["modifyvm", :id, "--memory", settings["memory"] ||= "2048"]
+            vb.customize ["modifyvm", :id, "--memory", settings["memory"] ||= "1024"]
             vb.customize ["modifyvm", :id, "--cpus", settings["cpus"] ||= "1"]
             vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
             vb.customize ["modifyvm", :id, "--natdnshostresolver1", settings["natdnshostresolver"] ||= "on"]
@@ -191,14 +191,15 @@ class Lemp
                     end
                     s.path = scriptDir + "/serve-#{type}.sh"
                     s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= "", site["zray"] ||= "false"]
+                    
+                    if (type == "angular")
+                        s.args = [site["map"], site["port"] ||= "4200", "80", "443"]
+                    end
+                    
 
                     if site["zray"] == 'true'
                         config.vm.provision "shell" do |s|
                             s.inline = "ln -sf /opt/zray/gui/public " + site["to"] + "/ZendServer"
-                        end
-                    else
-                        config.vm.provision "shell" do |s|
-                            s.inline = "rm -rf " + site["to"] + "/ZendServer"
                         end
                     end
                 end
