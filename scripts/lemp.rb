@@ -12,7 +12,7 @@ class Lemp
         # Configure The Box
         config.vm.define settings["name"] ||= "starcorp-lemp"
         config.vm.box = settings["box"] ||= "starcorp/lemp"
-        config.vm.box_version = settings["version"] ||= ">= 0.0.1"
+        config.vm.box_version = settings["version"] ||= ">= 0.0.2"
         config.vm.hostname = settings["hostname"] ||= "starcorp"
 
         # Configure A Private Network IP
