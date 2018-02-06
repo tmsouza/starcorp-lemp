@@ -16,8 +16,8 @@ class JsonSettingsTest extends TestCase
         $settings = JsonSettings::fromFile(__DIR__.'/../../resources/Server.json');
 
         $this->assertArraySubset([
-            'ip' => '192.168.10.10',
-            'memory' => '2048',
+            'ip' => '192.168.10.20',
+            'memory' => '1024',
             'cpus' => '1',
         ], $settings->toArray());
     }

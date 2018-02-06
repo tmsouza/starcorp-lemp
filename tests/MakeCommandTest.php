@@ -210,7 +210,14 @@ class MakeCommandTest extends TestCase
         $this->assertEquals([
             'map' => 'starcorp.test',
             'to' => '/home/vagrant/code/public',
+            'php' => '7.1'
         ], $settings['sites'][0]);
+
+        $this->assertEquals([
+            'map' => 'wallet.local',
+            'port' => '4200',
+            'type' => 'angular'
+        ], $settings['sites'][1]);
     }
 
     /** @test */

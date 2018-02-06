@@ -117,6 +117,10 @@ abstract class ServerSettings
                     $sites[$index]['to'] = $user_site['to'];
                 }
 
+                if (isset($user_site['port'])) {
+                    $sites[$index]['port'] = $user_site['port'];
+                }
+
                 if (isset($user_site['type'])) {
                     $sites[$index]['type'] = $user_site['type'];
                 }
