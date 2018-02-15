@@ -16,9 +16,14 @@
         {
             "map": "starcorp.test",
             "to": "/home/vagrant/code/public",
-            "php": "7.1"
-        },
-        {
+            "php": "7.1",
+            "index": "app_dev"
+        },{
+            "map": "test.starcorp.test",
+            "to": "/home/vagrant/code/public",
+            "php": "7.1",
+            "index": "app_test"
+        },{
             "map": "wallet.local",
             "port": "4200",
             "type": "angular"

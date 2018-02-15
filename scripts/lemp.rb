@@ -190,17 +190,11 @@ class Lemp
                         params += " )"
                     end
                     s.path = scriptDir + "/serve-#{type}.sh"
-                    s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= "", site["zray"] ||= "false"]
                     
                     if (type == "angular")
                         s.args = [site["map"], site["port"] ||= "4200", "80", "443"]
-                    end
-                    
-
-                    if site["zray"] == 'true'
-                        config.vm.provision "shell" do |s|
-                            s.inline = "ln -sf /opt/zray/gui/public " + site["to"] + "/ZendServer"
-                        end
+                    else
+                        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= "", site["index"] ||= "index"]
                     end
                 end
             end

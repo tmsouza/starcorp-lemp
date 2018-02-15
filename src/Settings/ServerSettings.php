@@ -132,6 +132,10 @@ abstract class ServerSettings
                 if (isset($user_site['php'])) {
                     $sites[$index]['php'] = $user_site['php'];
                 }
+
+                if (isset($user_site['index'])) {
+                    $sites[$index]['index'] = $user_site['index'];
+                }
             }
         }
 
