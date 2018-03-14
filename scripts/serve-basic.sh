@@ -20,6 +20,10 @@ block="server {
 
     charset utf-8;
 
+    # add_header 'Access-Control-Allow-Origin' '*';
+	add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+	add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, X-Store';
+
     location / {
         try_files \$uri /${7:-index}.php\$is_args\$args;
     }
