@@ -95,6 +95,11 @@ class Lemp
             end
         end
 
+        # Update
+        config.vm.provision "shell" do |s|
+            s.path = scriptDir + "/update.sh"
+        end
+
         # Copy The SSH Private Keys To The Box
         if settings.include? 'keys'
             if settings["keys"].to_s.length == 0
