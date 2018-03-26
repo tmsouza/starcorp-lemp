@@ -27,7 +27,13 @@
             "map": "wallet.local",
             "port": "4200",
             "type": "angular"
-        }
+        },{
+            "map": "shop.local",
+            "to": "/var/www/html/shop/public",
+            "php": "7.1",
+            "index": "index",
+            "type" : "shop-bob"
+	    }
     ],
     "databases": [
         "starcorp"
