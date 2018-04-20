@@ -87,17 +87,21 @@ class Lemp
 
         # Configure The Public Key For SSH Access
         if settings.include? 'authorize'
-            if File.exists? File.expand_path(settings["authorize"])
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo \"\n$1\" | tee -a /home/vagrant/.ssh/authorized_keys"
-                    s.args = [File.read(File.expand_path(settings["authorize"]))]
+            if settings["authorize"].to_s.length == 0
+                puts "Check your Server.json file, you have no authorize specified."
+                exit
+            end
+            settings["authorize"].each do |key|
+                if File.exists? File.expand_path(key)
+                    config.vm.provision "shell" do |s|
+                        s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo \"\n$1\" | tee -a /home/vagrant/.ssh/authorized_keys"
+                        s.args = [File.read(File.expand_path(key))]
+                    end
+                else
+                    puts "Check your Server.json file, the path to your authorize does not exist."
+                    exit
                 end
             end
-        end
-
-        # Update
-        config.vm.provision "shell" do |s|
-            s.path = scriptDir + "/update.sh"
         end
 
         # Copy The SSH Private Keys To The Box
@@ -120,14 +124,24 @@ class Lemp
             end
         end
 
-        # Copy User Files Over to VM
-        if settings.include? 'copy'
-            settings["copy"].each do |file|
-                config.vm.provision "file" do |f|
-                    f.source = File.expand_path(file["from"])
-                    f.destination = file["to"].chomp('/') + "/" + file["from"].split('/').last
+        #Configure The Access Token
+        if settings.include? 'tokens'
+            if settings["tokens"].to_s.length == 0
+                puts "Check your Server.json file, you have no tokens specified."
+                exit
+            end
+            settings["tokens"].each do |key|
+                config.vm.provision "shell" do |s|
+                    s.privileged = false
+                    s.inline = "composer config --global --auth gitlab-token.gitlab.com $1"
+                    s.args = [key]
                 end
             end
+        end
+
+        # Update server
+        config.vm.provision "shell" do |s|
+            s.path = scriptDir + "/update.sh"
         end
 
         # Register All Of The Configured Shared Folders
@@ -199,7 +213,7 @@ class Lemp
                     if (type == "angular")
                         s.args = [site["map"], site["port"] ||= "4200", "80", "443"]
                     else
-                        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= "", site["index"] ||= "index"]
+                        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= "", site["index"] ||= "index", site["store"] ||= "mx"]
                     end
                 end
             end

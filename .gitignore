@@ -1,4 +1,2 @@
-/vendor
 /.vagrant
-phpunit.xml
 /Server.json
